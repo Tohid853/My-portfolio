@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tohid Ahmed Khan - Portfolio</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+  body{background:#0f0f0f;color:#fff;line-height:1.6}
+  nav{display:flex;justify-content:space-between;padding:20px 8%;position:sticky;top:0;background:#0f0f0f;z-index:10;border-bottom:1px solid #1a1a1a}
+  nav a{color:#aaa;text-decoration:none;margin-left:20px}
+  nav a:hover{color:#fff}
+  .hero{padding:80px 8%}
+  .hero h1{font-size:48px;line-height:1.1} .hero h1 span{color:#7c5cff}
+  .hero p{color:#aaa;margin:15px 0 25px;max-width:500px;font-size:18px}
+  .btn{background:#7c5cff;color:#fff;padding:12px 24px;border-radius:30px;text-decoration:none;display:inline-block;transition:.3s}
+  .btn:hover{background:#6a4ae6;transform:translateY(-2px)}
+  section{padding:60px 8%}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:20px}
+  .card{background:#1a1a1a;padding:20px;border-radius:16px;border:1px solid #222;transition:.3s}
+  .card:hover{border-color:#7c5cff;transform:translateY(-4px)}
+  .card h3{margin-bottom:10px}
+  .tag{background:#222;padding:4px 10px;border-radius:20px;font-size:12px;margin-right:6px;color:#7c5cff}
+  input,textarea{width:100%;padding:12px;margin:8px 0;background:#1a1a1a;border:1px solid #222;border-radius:8px;color:#fff}
+  footer{text-align:center;padding:30px;color:#555;border-top:1px solid #1a1a1a}
+  .project-card{cursor: pointer;}
+</style>
+</head>
+<body>
+<nav>
+  <b>Tohid.</b>
+  <div><a href="#about">About</a><a href="#projects">Projects</a><a href="#contact">Contact</a></div>
+</nav>
+
+<div class="hero">
+  <h1>Hi, I'm <span>Tohid Ahmed Khan</span></h1>
+  <p> I am a Frontend Developer  passionate about building beautiful and responsive website using HTML,CSS,JavaScript.</p>
+  <a class="btn" href="#projects">Project</a>
+</div>
+
+<section id="about">
+  <h2>About Me</h2>
+  <p style="color:#aaa;max-width:650px;margin-top:10px;font-size:17px">My name is Tohid Ahmed khan.I have recently completed btech degree in computer science from shri dadaji insitute of technology & science.I come from khandwa.I am currently doing internship at indvibe infotech private limited.When i am working on AIML project.</p>
+  <div class="grid">
+    <div class="card"><h3>Skills</h3><p><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">React</span><span class="tag">Python</span><span class="tag">OOP</span></p></div>
+    <div class="card"><h3>Education</h3><p>B.Tech CSE<br>SDITS, Khandwa<br>2022 - 2026</p></div>
+  </div>
+</section>
+
+<section id="projects">
+  <h2>Projects</h2>
+  <div class="grid">
+   <div class="card"><h3><a href="./project/calculator.html">Calculator</a></h3></div>
+    <div class="card"><h3><a href="./project/analog clock/analog.html">Analog Clock</a></h3></div>
+    <div class="card"><h3><a href="./project/stopwatch/stop.html">Stopwatch</a></h3></div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Have a project in mind? Let's connect.Feel free to reach out to me.</p>
+  <div style="max-width:500px;margin-top:15px">
+    <input placeholder="Your Name" />
+    <input placeholder="Your Email" />
+    <textarea rows="4" placeholder="Message"></textarea>
+    <a class="btn" href="mailto:tohidahmedkhan@email.com">Send Message</a>
+  </div>
+</section>
+
+<footer>© 2026 Tohid Ahmed Khan - Made with ❤️</footer>
+</body>
+</html>
