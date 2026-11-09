@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>To-Do List Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0; min-height:100vh;
+  font-family:'Poppins', sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display:flex; justify-content:center; align-items:center;
+}
+.box{
+  background:white; width:400px; padding:25px; border-radius:20px;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+}
+h2{ text-align:center; color:#333; margin-bottom:20px;}
+.input-box{ display:flex; gap:10px; margin-bottom:20px;}
+input{
+  flex:1; padding:12px 15px; border:2px solid #eee; border-radius:10px; outline:none; font-size:14px;
+}
+input:focus{ border-color:#667eea; }
+button{
+  padding:12px 20px; background:#667eea; color:white; border:none; border-radius:10px;
+  cursor:pointer; font-weight:600; transition:0.2s;
+}
+button:hover{ background:#5a6fd6; transform:scale(1.05); }
+ul{ padding:0; margin:0;}
+li{
+  list-style:none; background:#f8f9ff; padding:12px 15px; margin-top:10px; border-radius:10px;
+  display:flex; justify-content:space-between; align-items:center;
+  transition:0.2s; border-left:4px solid #667eea;
+}
+li:hover{ transform: translateX(5px); }
+li.done{
+  text-decoration: line-through; background:#e8f5e9; color:#888; border-left-color:#4caf50;
+}
+li span{
+  background:#ffebee; color:#ff5252; width:28px; height:28px; display:flex;
+  justify-content:center; align-items:center; border-radius:50%; cursor:pointer; font-weight:bold;
+}
+li span:hover{ background:#ff5252; color:white;}
+</style>
+</head>
+<body>
+  <div class="box">
+    <h2>✨ My To-Do List</h2>
+    <div class="input-box">
+      <input type="text" id="taskInput" placeholder="Kya karna hai?">
+      <button onclick="addTask()">Add</button>
+    </div>
+    <ul id="taskList"></ul>
+  </div>
+
+<script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+function showTasks(){
+  let list = document.getElementById("taskList");
+  list.innerHTML = "";
+  tasks.forEach((t, index) => {
+    let li = document.createElement("li");
+    li.innerHTML = `${t.text} <span>✕</span>`;
+    if(t.done) li.classList.add("done");
+    li.onclick = () => toggleDone(index);
+    li.querySelector("span").onclick = (e) => { e.stopPropagation(); deleteTask(index); }
+    list.appendChild(li);
+  });
+}
+function addTask(){
+  let input = document.getElementById("taskInput");
+  if(input.value == "") return;
+  tasks.push({text: input.value, done: false});
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  input.value = ""; showTasks();
+}
+function toggleDone(i){ tasks[i].done =!tasks[i].done; localStorage.setItem("tasks", JSON.stringify(tasks)); showTasks(); }
+function deleteTask(i){ tasks.splice(i, 1); localStorage.setItem("tasks", JSON.stringify(tasks)); showTasks(); }
+showTasks();
+</script>
+</body>
+</html>

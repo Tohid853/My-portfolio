@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Weather App Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+<style>
+body{
+  margin:0; min-height:100vh; font-family:'Poppins',sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display:flex; justify-content:center; align-items:center;
+  transition: 0.5s all;
+}
+.box{
+  background:rgba(255,255,255,0.95); width:380px; padding:30px; border-radius:25px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.3); text-align:center;
+  backdrop-filter: blur(10px);
+}
+h2{ color:#333; margin:0; }
+.search{ display:flex; gap:10px; margin:25px 0;}
+input{ flex:1; padding:14px 18px; border:2px solid #eee; border-radius:12px; outline:none; font-size:15px;}
+input:focus{ border-color:#667eea; }
+button{ padding:14px 22px; background:#667eea; color:white; border:none; border-radius:12px; cursor:pointer; font-weight:600; transition:0.2s;}
+button:hover{ transform:scale(1.05); }
+#result{ margin-top:20px; padding:20px; background:#f8f9ff; border-radius:20px; display:none; animation: pop 0.4s; }
+@keyframes pop{ from{transform:scale(0.8); opacity:0} to{transform:scale(1); opacity:1} }
+.temp{ font-size:55px; font-weight:700; color:#667eea; line-height:1; margin:10px 0; }
+.city-name{ font-size:22px; font-weight:600; color:#444; }
+.desc{ font-size:18px; color:#666; margin:5px 0; }
+.wind{ color:#888; margin-top:10px; background:white; padding:6px 12px; border-radius:20px; display:inline-block; }
+</style>
+</head>
+<body id="bodyBg">
+<div class="box">
+  <h2>🌤️ Weather Pro</h2>
+  <div class="search">
+    <input type="text" id="city" placeholder="City likho..." onkeydown="if(event.key==='Enter') getWeather()">
+    <button onclick="getWeather()">Search</button>
+  </div>
+  <div id="result"></div>
+</div>
+
+<script>
+async function getWeather(){
+  let city = document.getElementById("city").value;
+  if(!city) return alert("City likho pehle");
+  let resDiv = document.getElementById("result");
+  let body = document.getElementById("bodyBg");
+  resDiv.style.display = "block";
+  resDiv.innerHTML = "Mausam check ho raha hai... ⏳";
+
+  try{
+    let geo = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}&count=1`);
+    let geoData = await geo.json();
+    if(!geoData.results) throw "not found";
+    let lat = geoData.results[0].latitude;
+    let lon = geoData.results[0].longitude;
+    let name = geoData.results[0].name + ", " + geoData.results[0].country;
+
+    let weather = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+    let data = await weather.json();
+    let temp = data.current_weather.temperature;
+    let wind = data.current_weather.windspeed;
+    let code = data.current_weather.weathercode;
+
+    let status = "Saaf Mausam";
+    let emoji = "☀️";
+    let bg = "linear-gradient(135deg, #f6d365 0%, #fda085 100%)"; // sunny
+
+    if(code >= 1 && code <= 3){
+      status = "Badal Chaye Huye Hai"; emoji = "⛅"; bg = "linear-gradient(135deg, #667eea, #764ba2)";
+    }
+    if(code >= 45){
+      status = "Kohra Hai"; emoji = "🌫️"; bg = "linear-gradient(135deg, #757F9A, #D7DDE8)";
+    }
+    if(code >= 51){
+      status = "Halki Barish"; emoji = "🌧️"; bg = "linear-gradient(135deg, #4e54c8, #8f94fb)";
+    }
+    if(code >= 71){
+      status = "Barish Ho Rahi Hai"; emoji = "🌧️"; bg = "linear-gradient(135deg, #2c3e50, #4ca1af)";
+    }
+    
+    body.style.background = bg;
+
+    resDiv.innerHTML = `
+      <div class="city-name">${name}</div>
+      <div class="temp">${temp}°C</div>
+      <div class="desc">${status} ${emoji}</div>
+      <div class="wind">💨 Wind: ${wind} km/h</div>
+    `;
+  }catch(e){
+    resDiv.innerHTML = `<p style="color:red;">City nahi mili, try again</p>`;
+  }
+}
+</script>
+</body>
+</html>
